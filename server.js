@@ -48,7 +48,7 @@ app.use(function(err,req,res,next){
 app.get('/',function(req,res){
     res.status(200).json({message:"hello welcome to home-rental-app"})
 })
-
-app.listen(3000, ( ) => console.log('server connced successfully'))
+const port = process.env.PORT || 3000
+app.listen(port, ( ) => console.log('server connced successfully'))
 
 
