@@ -18,21 +18,24 @@ app.use(methodoverride('_method'))
 dotenv.config()
 connectdb()
 
+const sess = {
+    secret: process.env.SESSION_SECRET,
+    resave:false,
+    name:"Home-rental-app",
+    saveUninitialized:false,
+    cookie:{
+        maxAge: 1000*60*30,
+        httpOnly:true,
+        secure: false,
+        sameSite:"strict"
+    }
+}
 
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        name: "Home-renting",
-        saveUninitialized: false,
-        cookie: {
-            maxAge: 1000 * 60 * 30,
-            httpOnly: true,
-            secure: false,
-            sameSite: "strict"
-        }
-    })
-);
+if(app.get('env')==='production'){
+    app.set('trust proxy',1)
+    sess.cookie.secure = true
+}
+app.use(session(sess))
 app.use(apiroutes)
 app.use(postapiroutes)
 app.use(projectapiroutes)
